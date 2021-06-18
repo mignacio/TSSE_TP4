@@ -65,19 +65,33 @@ void test_max31855_constructor()
 
 
 
+
+
+
+
+
+
+
+
+
+
 void test_max31855_read()
 
 {
 
-    gpioWrite_CMockIgnoreAndReturn(32, 0);
+    gpioWrite_CMockIgnoreAndReturn(37, 0);
 
-    uint8_t aux_buffer[4] = {0xA, 0xB, 0xC, 0xD};
+    uint8_t aux_buffer[4] = {0x1A, 0x2B, 0x3C, 0x4D};
 
 
 
-    spiRead_CMockExpectAndReturn(35, 0, aux_buffer, 4, 0);
+    spiRead_CMockExpectAndReturn(40, 0, aux_buffer, 4, 0);
 
-    spiRead_CMockReturnMemThruPtr_buffer(36, aux_buffer, 4 * sizeof(*aux_buffer));
+
+
+
+
+    spiRead_CMockReturnMemThruPtr_buffer(43, aux_buffer, 4 * sizeof(*aux_buffer));
 
     max31855_read(&max31855_d);
 
@@ -87,6 +101,172 @@ void test_max31855_read()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(39), UNITY_DISPLAY_STYLE_UINT8, UNITY_ARRAY_TO_ARRAY);
+   ), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_HEX8, UNITY_ARRAY_TO_ARRAY);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_ext_temp_to_celsius_positive()
+
+{
+
+
+
+    max31855_d.buffer[0] = 0x64;
+
+    max31855_d.buffer[1] = 0x00;
+
+    max31855_d.buffer[2] = 0x00;
+
+    max31855_d.buffer[3] = 0x00;
+
+    int32_t ret_temp;
+
+    int32_t expected_temp = 160000;
+
+    ret_temp = max31855_ext_temp_to_celsius(&max31855_d);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((expected_temp)), (UNITY_INT)(UNITY_INT32)((ret_temp)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_INT32);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_ext_temp_to_celsius_negative()
+
+{
+
+    max31855_d.buffer[0] = 0xF0;
+
+    max31855_d.buffer[1] = 0x60;
+
+    max31855_d.buffer[2] = 0x00;
+
+    max31855_d.buffer[3] = 0x00;
+
+
+
+    int32_t ret_temp;
+
+    int32_t expected_temp = -25000;
+
+    ret_temp = max31855_ext_temp_to_celsius(&max31855_d);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((expected_temp)), (UNITY_INT)(UNITY_INT32)((ret_temp)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(84), UNITY_DISPLAY_STYLE_INT32);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_int_temp_to_celsius_positive()
+
+{
+
+    max31855_d.buffer[0] = 0x00;
+
+    max31855_d.buffer[1] = 0x00;
+
+    max31855_d.buffer[2] = 0x7F;
+
+    max31855_d.buffer[3] = 0x00;
+
+
+
+    int32_t ret_temp;
+
+    int32_t expected_temp = 127000;
+
+    ret_temp = max31855_int_temp_to_celsius(&max31855_d);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((expected_temp)), (UNITY_INT)(UNITY_INT32)((ret_temp)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(103), UNITY_DISPLAY_STYLE_INT32);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_int_temp_to_celsius_negative()
+
+{
+
+    max31855_d.buffer[0] = 0x00;
+
+    max31855_d.buffer[1] = 0x00;
+
+    max31855_d.buffer[2] = 0xC9;
+
+    max31855_d.buffer[3] = 0x00;
+
+    int32_t ret_temp;
+
+    int32_t expected_temp = -55000;
+
+    ret_temp = max31855_int_temp_to_celsius(&max31855_d);
+
+    UnityAssertEqualNumber((UNITY_INT)(UNITY_INT32)((expected_temp)), (UNITY_INT)(UNITY_INT32)((ret_temp)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(121), UNITY_DISPLAY_STYLE_INT32);
 
 }
