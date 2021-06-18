@@ -29,7 +29,7 @@ void max31855_init(void);
 void max31855(max31855_t* device, gpioMap_t chip_select, uint8_t* name_str);
 void max31855_read(max31855_t* device);
 
-void max31855_ext_temp_to_celsius(max31855_t* device);
-void max31855_int_temp_to_celsius(max31855_t* device);
+int32_t max31855_ext_temp_to_celsius(max31855_t* device);
+int32_t max31855_int_temp_to_celsius(max31855_t* device);
 
 #endif /* CESE_PCSE_INC_MAX31855_C_ */

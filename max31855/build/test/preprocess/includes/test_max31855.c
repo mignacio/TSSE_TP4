@@ -1,0 +1,4 @@
+---
+- "/var/lib/gems/2.5.0/gems/ceedling-0.31.0/vendor/unity/src/unity.h"
+- build/test/mocks/mock_sapi.h
+- src/max31855.h

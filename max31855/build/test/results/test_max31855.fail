@@ -1,0 +1,23 @@
+---
+:source:
+  :path: test
+  :file: test_max31855.c
+:successes:
+- :test: test_max31855_constructor
+  :line: 15
+  :message: ''
+  :unity_test_time: 0
+:failures:
+- :test: test_max31855_read
+  :line: 35
+  :message: Element 0 Expected 0x0A Was 0x00. Function spiRead Argument buffer. Function
+    called with unexpected argument value.
+  :unity_test_time: 0
+:ignores: []
+:counts:
+  :total: 2
+  :passed: 1
+  :failed: 1
+  :ignored: 0
+:stdout: []
+:time: 0.0012917979984194972

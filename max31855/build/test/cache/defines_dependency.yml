@@ -1,0 +1,7 @@
+---
+src/max31855.c:
+- TEST
+build/test/mocks/mock_sapi.c:
+- TEST
+src/sapi.c:
+- TEST
