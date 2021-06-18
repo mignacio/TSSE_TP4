@@ -7,33 +7,32 @@
   :line: 15
   :message: ''
   :unity_test_time: 0
+- :test: test_max31855_read
+  :line: 35
+  :message: ''
+  :unity_test_time: 0
 - :test: test_ext_temp_to_celsius_positive
-  :line: 55
+  :line: 54
   :message: ''
   :unity_test_time: 0
 - :test: test_ext_temp_to_celsius_negative
-  :line: 74
+  :line: 73
   :message: ''
   :unity_test_time: 0
 - :test: test_int_temp_to_celsius_positive
-  :line: 93
+  :line: 92
   :message: ''
   :unity_test_time: 0
 - :test: test_int_temp_to_celsius_negative
-  :line: 112
+  :line: 111
   :message: ''
   :unity_test_time: 0
-:failures:
-- :test: test_max31855_read
-  :line: 40
-  :message: Element 0 Expected 0x1A Was 0x00. Function spiRead Argument buffer. Function
-    called with unexpected argument value.
-  :unity_test_time: 0
+:failures: []
 :ignores: []
 :counts:
   :total: 6
-  :passed: 5
-  :failed: 1
+  :passed: 6
+  :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0012961700003870646
+:time: 0.001209178997669369

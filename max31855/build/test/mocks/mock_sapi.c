@@ -26,6 +26,8 @@ typedef struct _CMOCK_gpioInit_CALL_INSTANCE
   int CallOrder;
   gpioMap_t Expected_pin;
   gpioInit_t Expected_config;
+  char IgnoreArg_pin;
+  char IgnoreArg_config;
 
 } CMOCK_gpioInit_CALL_INSTANCE;
 
@@ -35,6 +37,7 @@ typedef struct _CMOCK_gpioRead_CALL_INSTANCE
   bool_t ReturnVal;
   int CallOrder;
   gpioMap_t Expected_pin;
+  char IgnoreArg_pin;
 
 } CMOCK_gpioRead_CALL_INSTANCE;
 
@@ -45,6 +48,8 @@ typedef struct _CMOCK_gpioWrite_CALL_INSTANCE
   int CallOrder;
   gpioMap_t Expected_pin;
   bool_t Expected_value;
+  char IgnoreArg_pin;
+  char IgnoreArg_value;
 
 } CMOCK_gpioWrite_CALL_INSTANCE;
 
@@ -54,6 +59,7 @@ typedef struct _CMOCK_gpioToggle_CALL_INSTANCE
   bool_t ReturnVal;
   int CallOrder;
   gpioMap_t Expected_pin;
+  char IgnoreArg_pin;
 
 } CMOCK_gpioToggle_CALL_INSTANCE;
 
@@ -63,6 +69,7 @@ typedef struct _CMOCK_spiInit_CALL_INSTANCE
   bool_t ReturnVal;
   int CallOrder;
   spiMap_t Expected_spi;
+  char IgnoreArg_spi;
 
 } CMOCK_spiInit_CALL_INSTANCE;
 
@@ -77,6 +84,9 @@ typedef struct _CMOCK_spiRead_CALL_INSTANCE
   char ReturnThruPtr_buffer_Used;
   uint8_t* ReturnThruPtr_buffer_Val;
   size_t ReturnThruPtr_buffer_Size;
+  char IgnoreArg_spi;
+  char IgnoreArg_buffer;
+  char IgnoreArg_bufferSize;
 
 } CMOCK_spiRead_CALL_INSTANCE;
 
@@ -91,6 +101,9 @@ typedef struct _CMOCK_spiWrite_CALL_INSTANCE
   char ReturnThruPtr_buffer_Used;
   uint8_t* ReturnThruPtr_buffer_Val;
   size_t ReturnThruPtr_buffer_Size;
+  char IgnoreArg_spi;
+  char IgnoreArg_buffer;
+  char IgnoreArg_bufferSize;
 
 } CMOCK_spiWrite_CALL_INSTANCE;
 
@@ -282,10 +295,12 @@ bool_t gpioInit(gpioMap_t pin, gpioInit_t config)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_pin)
   {
     UNITY_SET_DETAILS(CMockString_gpioInit,CMockString_pin);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin), sizeof(gpioMap_t), cmock_line, CMockStringMismatch);
   }
+  if (!cmock_call_instance->IgnoreArg_config)
   {
     UNITY_SET_DETAILS(CMockString_gpioInit,CMockString_config);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_config), (void*)(&config), sizeof(gpioInit_t), cmock_line, CMockStringMismatch);
@@ -303,8 +318,10 @@ void CMockExpectParameters_gpioInit(CMOCK_gpioInit_CALL_INSTANCE* cmock_call_ins
 {
   memcpy((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin),
          sizeof(gpioMap_t[sizeof(pin) == sizeof(gpioMap_t) ? 1 : -1])); /* add gpioMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_pin = 0;
   memcpy((void*)(&cmock_call_instance->Expected_config), (void*)(&config),
          sizeof(gpioInit_t[sizeof(config) == sizeof(gpioInit_t) ? 1 : -1])); /* add gpioInit_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_config = 0;
 }
 
 void gpioInit_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -355,6 +372,20 @@ void gpioInit_Stub(CMOCK_gpioInit_CALLBACK Callback)
   Mock.gpioInit_CallbackFunctionPointer = Callback;
 }
 
+void gpioInit_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioInit_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioInit_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioInit_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_pin = 1;
+}
+
+void gpioInit_CMockIgnoreArg_config(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioInit_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioInit_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioInit_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_config = 1;
+}
+
 bool_t gpioRead(gpioMap_t pin)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -383,6 +414,7 @@ bool_t gpioRead(gpioMap_t pin)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_pin)
   {
     UNITY_SET_DETAILS(CMockString_gpioRead,CMockString_pin);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin), sizeof(gpioMap_t), cmock_line, CMockStringMismatch);
@@ -400,6 +432,7 @@ void CMockExpectParameters_gpioRead(CMOCK_gpioRead_CALL_INSTANCE* cmock_call_ins
 {
   memcpy((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin),
          sizeof(gpioMap_t[sizeof(pin) == sizeof(gpioMap_t) ? 1 : -1])); /* add gpioMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_pin = 0;
 }
 
 void gpioRead_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -450,6 +483,13 @@ void gpioRead_Stub(CMOCK_gpioRead_CALLBACK Callback)
   Mock.gpioRead_CallbackFunctionPointer = Callback;
 }
 
+void gpioRead_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioRead_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioRead_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioRead_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_pin = 1;
+}
+
 bool_t gpioWrite(gpioMap_t pin, bool_t value)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -478,10 +518,12 @@ bool_t gpioWrite(gpioMap_t pin, bool_t value)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_pin)
   {
     UNITY_SET_DETAILS(CMockString_gpioWrite,CMockString_pin);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin), sizeof(gpioMap_t), cmock_line, CMockStringMismatch);
   }
+  if (!cmock_call_instance->IgnoreArg_value)
   {
     UNITY_SET_DETAILS(CMockString_gpioWrite,CMockString_value);
     UNITY_TEST_ASSERT_EQUAL_INT(cmock_call_instance->Expected_value, value, cmock_line, CMockStringMismatch);
@@ -499,7 +541,9 @@ void CMockExpectParameters_gpioWrite(CMOCK_gpioWrite_CALL_INSTANCE* cmock_call_i
 {
   memcpy((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin),
          sizeof(gpioMap_t[sizeof(pin) == sizeof(gpioMap_t) ? 1 : -1])); /* add gpioMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_pin = 0;
   cmock_call_instance->Expected_value = value;
+  cmock_call_instance->IgnoreArg_value = 0;
 }
 
 void gpioWrite_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -550,6 +594,20 @@ void gpioWrite_Stub(CMOCK_gpioWrite_CALLBACK Callback)
   Mock.gpioWrite_CallbackFunctionPointer = Callback;
 }
 
+void gpioWrite_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioWrite_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_pin = 1;
+}
+
+void gpioWrite_CMockIgnoreArg_value(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioWrite_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_value = 1;
+}
+
 bool_t gpioToggle(gpioMap_t pin)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -578,6 +636,7 @@ bool_t gpioToggle(gpioMap_t pin)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_pin)
   {
     UNITY_SET_DETAILS(CMockString_gpioToggle,CMockString_pin);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin), sizeof(gpioMap_t), cmock_line, CMockStringMismatch);
@@ -595,6 +654,7 @@ void CMockExpectParameters_gpioToggle(CMOCK_gpioToggle_CALL_INSTANCE* cmock_call
 {
   memcpy((void*)(&cmock_call_instance->Expected_pin), (void*)(&pin),
          sizeof(gpioMap_t[sizeof(pin) == sizeof(gpioMap_t) ? 1 : -1])); /* add gpioMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_pin = 0;
 }
 
 void gpioToggle_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -645,6 +705,13 @@ void gpioToggle_Stub(CMOCK_gpioToggle_CALLBACK Callback)
   Mock.gpioToggle_CallbackFunctionPointer = Callback;
 }
 
+void gpioToggle_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_gpioToggle_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioToggle_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioToggle_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_pin = 1;
+}
+
 bool_t spiInit(spiMap_t spi)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -673,6 +740,7 @@ bool_t spiInit(spiMap_t spi)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_spi)
   {
     UNITY_SET_DETAILS(CMockString_spiInit,CMockString_spi);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi), sizeof(spiMap_t), cmock_line, CMockStringMismatch);
@@ -690,6 +758,7 @@ void CMockExpectParameters_spiInit(CMOCK_spiInit_CALL_INSTANCE* cmock_call_insta
 {
   memcpy((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi),
          sizeof(spiMap_t[sizeof(spi) == sizeof(spiMap_t) ? 1 : -1])); /* add spiMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_spi = 0;
 }
 
 void spiInit_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -740,6 +809,13 @@ void spiInit_Stub(CMOCK_spiInit_CALLBACK Callback)
   Mock.spiInit_CallbackFunctionPointer = Callback;
 }
 
+void spiInit_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiInit_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiInit_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiInit_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_spi = 1;
+}
+
 bool_t spiRead(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -768,10 +844,12 @@ bool_t spiRead(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_spi)
   {
     UNITY_SET_DETAILS(CMockString_spiRead,CMockString_spi);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi), sizeof(spiMap_t), cmock_line, CMockStringMismatch);
   }
+  if (!cmock_call_instance->IgnoreArg_buffer)
   {
     UNITY_SET_DETAILS(CMockString_spiRead,CMockString_buffer);
     if (cmock_call_instance->Expected_buffer == NULL)
@@ -779,6 +857,7 @@ bool_t spiRead(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
     else
       { UNITY_TEST_ASSERT_EQUAL_HEX8_ARRAY(cmock_call_instance->Expected_buffer, buffer, 1, cmock_line, CMockStringMismatch); }
   }
+  if (!cmock_call_instance->IgnoreArg_bufferSize)
   {
     UNITY_SET_DETAILS(CMockString_spiRead,CMockString_bufferSize);
     UNITY_TEST_ASSERT_EQUAL_HEX32(cmock_call_instance->Expected_bufferSize, bufferSize, cmock_line, CMockStringMismatch);
@@ -802,9 +881,12 @@ void CMockExpectParameters_spiRead(CMOCK_spiRead_CALL_INSTANCE* cmock_call_insta
 {
   memcpy((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi),
          sizeof(spiMap_t[sizeof(spi) == sizeof(spiMap_t) ? 1 : -1])); /* add spiMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_spi = 0;
   cmock_call_instance->Expected_buffer = buffer;
+  cmock_call_instance->IgnoreArg_buffer = 0;
   cmock_call_instance->ReturnThruPtr_buffer_Used = 0;
   cmock_call_instance->Expected_bufferSize = bufferSize;
+  cmock_call_instance->IgnoreArg_bufferSize = 0;
 }
 
 void spiRead_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -864,6 +946,27 @@ void spiRead_CMockReturnMemThruPtr_buffer(UNITY_LINE_TYPE cmock_line, uint8_t* b
   cmock_call_instance->ReturnThruPtr_buffer_Size = cmock_size;
 }
 
+void spiRead_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiRead_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiRead_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiRead_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_spi = 1;
+}
+
+void spiRead_CMockIgnoreArg_buffer(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiRead_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiRead_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiRead_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_buffer = 1;
+}
+
+void spiRead_CMockIgnoreArg_bufferSize(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiRead_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiRead_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiRead_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_bufferSize = 1;
+}
+
 bool_t spiWrite(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
@@ -892,10 +995,12 @@ bool_t spiWrite(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_spi)
   {
     UNITY_SET_DETAILS(CMockString_spiWrite,CMockString_spi);
     UNITY_TEST_ASSERT_EQUAL_MEMORY((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi), sizeof(spiMap_t), cmock_line, CMockStringMismatch);
   }
+  if (!cmock_call_instance->IgnoreArg_buffer)
   {
     UNITY_SET_DETAILS(CMockString_spiWrite,CMockString_buffer);
     if (cmock_call_instance->Expected_buffer == NULL)
@@ -903,6 +1008,7 @@ bool_t spiWrite(spiMap_t spi, uint8_t* buffer, uint32_t bufferSize)
     else
       { UNITY_TEST_ASSERT_EQUAL_HEX8_ARRAY(cmock_call_instance->Expected_buffer, buffer, 1, cmock_line, CMockStringMismatch); }
   }
+  if (!cmock_call_instance->IgnoreArg_bufferSize)
   {
     UNITY_SET_DETAILS(CMockString_spiWrite,CMockString_bufferSize);
     UNITY_TEST_ASSERT_EQUAL_HEX32(cmock_call_instance->Expected_bufferSize, bufferSize, cmock_line, CMockStringMismatch);
@@ -926,9 +1032,12 @@ void CMockExpectParameters_spiWrite(CMOCK_spiWrite_CALL_INSTANCE* cmock_call_ins
 {
   memcpy((void*)(&cmock_call_instance->Expected_spi), (void*)(&spi),
          sizeof(spiMap_t[sizeof(spi) == sizeof(spiMap_t) ? 1 : -1])); /* add spiMap_t to :treat_as_array if this causes an error */
+  cmock_call_instance->IgnoreArg_spi = 0;
   cmock_call_instance->Expected_buffer = buffer;
+  cmock_call_instance->IgnoreArg_buffer = 0;
   cmock_call_instance->ReturnThruPtr_buffer_Used = 0;
   cmock_call_instance->Expected_bufferSize = bufferSize;
+  cmock_call_instance->IgnoreArg_bufferSize = 0;
 }
 
 void spiWrite_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return)
@@ -986,5 +1095,26 @@ void spiWrite_CMockReturnMemThruPtr_buffer(UNITY_LINE_TYPE cmock_line, uint8_t* 
   cmock_call_instance->ReturnThruPtr_buffer_Used = 1;
   cmock_call_instance->ReturnThruPtr_buffer_Val = buffer;
   cmock_call_instance->ReturnThruPtr_buffer_Size = cmock_size;
+}
+
+void spiWrite_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiWrite_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_spi = 1;
+}
+
+void spiWrite_CMockIgnoreArg_buffer(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiWrite_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_buffer = 1;
+}
+
+void spiWrite_CMockIgnoreArg_bufferSize(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_spiWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_spiWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.spiWrite_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_bufferSize = 1;
 }
 

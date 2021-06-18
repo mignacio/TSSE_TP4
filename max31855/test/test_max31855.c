@@ -36,9 +36,8 @@ void test_max31855_read()
 {
     gpioWrite_IgnoreAndReturn(0);
     uint8_t aux_buffer[MAX31855_BUFFER_SIZE] = {0x1A, 0x2B, 0x3C, 0x4D};
-    
     spiRead_ExpectAndReturn(SPI0, aux_buffer, MAX31855_BUFFER_SIZE, 0);
-    
+    spiRead_IgnoreArg_buffer();
     //Error al intentar mockear spiRead, no lo pude solucionar
     spiRead_ReturnArrayThruPtr_buffer(aux_buffer, MAX31855_BUFFER_SIZE);
     max31855_read(&max31855_d);

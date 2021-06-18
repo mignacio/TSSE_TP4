@@ -34,6 +34,10 @@ typedef bool_t (* CMOCK_gpioInit_CALLBACK)(gpioMap_t pin, gpioInit_t config, int
 void gpioInit_AddCallback(CMOCK_gpioInit_CALLBACK Callback);
 void gpioInit_Stub(CMOCK_gpioInit_CALLBACK Callback);
 #define gpioInit_StubWithCallback gpioInit_Stub
+#define gpioInit_IgnoreArg_pin() gpioInit_CMockIgnoreArg_pin(__LINE__)
+void gpioInit_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line);
+#define gpioInit_IgnoreArg_config() gpioInit_CMockIgnoreArg_config(__LINE__)
+void gpioInit_CMockIgnoreArg_config(UNITY_LINE_TYPE cmock_line);
 #define gpioRead_IgnoreAndReturn(cmock_retval) gpioRead_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void gpioRead_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define gpioRead_StopIgnore() gpioRead_CMockStopIgnore()
@@ -44,6 +48,8 @@ typedef bool_t (* CMOCK_gpioRead_CALLBACK)(gpioMap_t pin, int cmock_num_calls);
 void gpioRead_AddCallback(CMOCK_gpioRead_CALLBACK Callback);
 void gpioRead_Stub(CMOCK_gpioRead_CALLBACK Callback);
 #define gpioRead_StubWithCallback gpioRead_Stub
+#define gpioRead_IgnoreArg_pin() gpioRead_CMockIgnoreArg_pin(__LINE__)
+void gpioRead_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line);
 #define gpioWrite_IgnoreAndReturn(cmock_retval) gpioWrite_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void gpioWrite_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define gpioWrite_StopIgnore() gpioWrite_CMockStopIgnore()
@@ -54,6 +60,10 @@ typedef bool_t (* CMOCK_gpioWrite_CALLBACK)(gpioMap_t pin, bool_t value, int cmo
 void gpioWrite_AddCallback(CMOCK_gpioWrite_CALLBACK Callback);
 void gpioWrite_Stub(CMOCK_gpioWrite_CALLBACK Callback);
 #define gpioWrite_StubWithCallback gpioWrite_Stub
+#define gpioWrite_IgnoreArg_pin() gpioWrite_CMockIgnoreArg_pin(__LINE__)
+void gpioWrite_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line);
+#define gpioWrite_IgnoreArg_value() gpioWrite_CMockIgnoreArg_value(__LINE__)
+void gpioWrite_CMockIgnoreArg_value(UNITY_LINE_TYPE cmock_line);
 #define gpioToggle_IgnoreAndReturn(cmock_retval) gpioToggle_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void gpioToggle_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define gpioToggle_StopIgnore() gpioToggle_CMockStopIgnore()
@@ -64,6 +74,8 @@ typedef bool_t (* CMOCK_gpioToggle_CALLBACK)(gpioMap_t pin, int cmock_num_calls)
 void gpioToggle_AddCallback(CMOCK_gpioToggle_CALLBACK Callback);
 void gpioToggle_Stub(CMOCK_gpioToggle_CALLBACK Callback);
 #define gpioToggle_StubWithCallback gpioToggle_Stub
+#define gpioToggle_IgnoreArg_pin() gpioToggle_CMockIgnoreArg_pin(__LINE__)
+void gpioToggle_CMockIgnoreArg_pin(UNITY_LINE_TYPE cmock_line);
 #define spiInit_IgnoreAndReturn(cmock_retval) spiInit_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void spiInit_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define spiInit_StopIgnore() spiInit_CMockStopIgnore()
@@ -74,6 +86,8 @@ typedef bool_t (* CMOCK_spiInit_CALLBACK)(spiMap_t spi, int cmock_num_calls);
 void spiInit_AddCallback(CMOCK_spiInit_CALLBACK Callback);
 void spiInit_Stub(CMOCK_spiInit_CALLBACK Callback);
 #define spiInit_StubWithCallback spiInit_Stub
+#define spiInit_IgnoreArg_spi() spiInit_CMockIgnoreArg_spi(__LINE__)
+void spiInit_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line);
 #define spiRead_IgnoreAndReturn(cmock_retval) spiRead_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void spiRead_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define spiRead_StopIgnore() spiRead_CMockStopIgnore()
@@ -88,6 +102,12 @@ void spiRead_Stub(CMOCK_spiRead_CALLBACK Callback);
 #define spiRead_ReturnArrayThruPtr_buffer(buffer, cmock_len) spiRead_CMockReturnMemThruPtr_buffer(__LINE__, buffer, cmock_len * sizeof(*buffer))
 #define spiRead_ReturnMemThruPtr_buffer(buffer, cmock_size) spiRead_CMockReturnMemThruPtr_buffer(__LINE__, buffer, cmock_size)
 void spiRead_CMockReturnMemThruPtr_buffer(UNITY_LINE_TYPE cmock_line, uint8_t* buffer, size_t cmock_size);
+#define spiRead_IgnoreArg_spi() spiRead_CMockIgnoreArg_spi(__LINE__)
+void spiRead_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line);
+#define spiRead_IgnoreArg_buffer() spiRead_CMockIgnoreArg_buffer(__LINE__)
+void spiRead_CMockIgnoreArg_buffer(UNITY_LINE_TYPE cmock_line);
+#define spiRead_IgnoreArg_bufferSize() spiRead_CMockIgnoreArg_bufferSize(__LINE__)
+void spiRead_CMockIgnoreArg_bufferSize(UNITY_LINE_TYPE cmock_line);
 #define spiWrite_IgnoreAndReturn(cmock_retval) spiWrite_CMockIgnoreAndReturn(__LINE__, cmock_retval)
 void spiWrite_CMockIgnoreAndReturn(UNITY_LINE_TYPE cmock_line, bool_t cmock_to_return);
 #define spiWrite_StopIgnore() spiWrite_CMockStopIgnore()
@@ -102,6 +122,12 @@ void spiWrite_Stub(CMOCK_spiWrite_CALLBACK Callback);
 #define spiWrite_ReturnArrayThruPtr_buffer(buffer, cmock_len) spiWrite_CMockReturnMemThruPtr_buffer(__LINE__, buffer, cmock_len * sizeof(*buffer))
 #define spiWrite_ReturnMemThruPtr_buffer(buffer, cmock_size) spiWrite_CMockReturnMemThruPtr_buffer(__LINE__, buffer, cmock_size)
 void spiWrite_CMockReturnMemThruPtr_buffer(UNITY_LINE_TYPE cmock_line, uint8_t* buffer, size_t cmock_size);
+#define spiWrite_IgnoreArg_spi() spiWrite_CMockIgnoreArg_spi(__LINE__)
+void spiWrite_CMockIgnoreArg_spi(UNITY_LINE_TYPE cmock_line);
+#define spiWrite_IgnoreArg_buffer() spiWrite_CMockIgnoreArg_buffer(__LINE__)
+void spiWrite_CMockIgnoreArg_buffer(UNITY_LINE_TYPE cmock_line);
+#define spiWrite_IgnoreArg_bufferSize() spiWrite_CMockIgnoreArg_bufferSize(__LINE__)
+void spiWrite_CMockIgnoreArg_bufferSize(UNITY_LINE_TYPE cmock_line);
 
 #if defined(__GNUC__) && !defined(__ICC) && !defined(__TMS470__)
 #if __GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 6 || (__GNUC_MINOR__ == 6 && __GNUC_PATCHLEVEL__ > 0)))

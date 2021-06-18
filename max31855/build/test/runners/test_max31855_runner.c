@@ -93,10 +93,10 @@ int main(void)
   UnityBegin("test_max31855.c");
   run_test(test_max31855_constructor, "test_max31855_constructor", 15);
   run_test(test_max31855_read, "test_max31855_read", 35);
-  run_test(test_ext_temp_to_celsius_positive, "test_ext_temp_to_celsius_positive", 55);
-  run_test(test_ext_temp_to_celsius_negative, "test_ext_temp_to_celsius_negative", 74);
-  run_test(test_int_temp_to_celsius_positive, "test_int_temp_to_celsius_positive", 93);
-  run_test(test_int_temp_to_celsius_negative, "test_int_temp_to_celsius_negative", 112);
+  run_test(test_ext_temp_to_celsius_positive, "test_ext_temp_to_celsius_positive", 54);
+  run_test(test_ext_temp_to_celsius_negative, "test_ext_temp_to_celsius_negative", 73);
+  run_test(test_int_temp_to_celsius_positive, "test_int_temp_to_celsius_positive", 92);
+  run_test(test_int_temp_to_celsius_negative, "test_int_temp_to_celsius_negative", 111);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

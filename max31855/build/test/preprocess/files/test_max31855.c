@@ -83,15 +83,13 @@ void test_max31855_read()
 
     uint8_t aux_buffer[4] = {0x1A, 0x2B, 0x3C, 0x4D};
 
+    spiRead_CMockExpectAndReturn(39, 0, aux_buffer, 4, 0);
 
-
-    spiRead_CMockExpectAndReturn(40, 0, aux_buffer, 4, 0);
-
-
+    spiRead_CMockIgnoreArg_buffer(40);
 
 
 
-    spiRead_CMockReturnMemThruPtr_buffer(43, aux_buffer, 4 * sizeof(*aux_buffer));
+    spiRead_CMockReturnMemThruPtr_buffer(42, aux_buffer, 4 * sizeof(*aux_buffer));
 
     max31855_read(&max31855_d);
 
@@ -101,7 +99,7 @@ void test_max31855_read()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_HEX8, UNITY_ARRAY_TO_ARRAY);
+   ), (UNITY_UINT)(45), UNITY_DISPLAY_STYLE_HEX8, UNITY_ARRAY_TO_ARRAY);
 
 }
 
@@ -143,7 +141,7 @@ void test_ext_temp_to_celsius_positive()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(65), UNITY_DISPLAY_STYLE_INT32);
+   ), (UNITY_UINT)(64), UNITY_DISPLAY_STYLE_INT32);
 
 }
 
@@ -185,7 +183,7 @@ void test_ext_temp_to_celsius_negative()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(84), UNITY_DISPLAY_STYLE_INT32);
+   ), (UNITY_UINT)(83), UNITY_DISPLAY_STYLE_INT32);
 
 }
 
@@ -227,7 +225,7 @@ void test_int_temp_to_celsius_positive()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(103), UNITY_DISPLAY_STYLE_INT32);
+   ), (UNITY_UINT)(102), UNITY_DISPLAY_STYLE_INT32);
 
 }
 
@@ -267,6 +265,6 @@ void test_int_temp_to_celsius_negative()
 
    ((void *)0)
 
-   ), (UNITY_UINT)(121), UNITY_DISPLAY_STYLE_INT32);
+   ), (UNITY_UINT)(120), UNITY_DISPLAY_STYLE_INT32);
 
 }
